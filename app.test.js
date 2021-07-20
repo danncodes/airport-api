@@ -14,7 +14,7 @@ describe("airport tests", () => {
                 done();
             });
     });
-    test("POST /restaurants should create the new restaurant", (done) => {
+    test("POST /Airport should create the new Airport", (done) => {
         const newAirport = {
             "icao": "XXXX",
             "iata": "",
@@ -32,9 +32,59 @@ describe("airport tests", () => {
             .send(newAirport)
             .expect(201)
             .end(() => {
-                console.log("HERE!!!!", airports[airports.length-1])
+                // console.log(airports[airports.length-1])
                 expect(airports[airports.length-1]).toEqual(newAirport);
                 return done();
             });
     });
+    test("GET /airport should return a specific airport", (done) => {
+        const airport = airports[Math.floor(Math.random()*airports.length)];
+        request(app)
+            .get("/airports/"+ airport.icao)
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .then((response) => {
+                expect(response.body).toEqual(airport);
+                done();
+            });
+    });
+    test("DELETE /airport should return a specific airport", (done) => {
+        const originalAirportLength = airports.length
+        const airport = airports[Math.floor(Math.random()*airports.length)];
+        request(app)
+        
+            .delete("/airports/"+ airport.icao)
+            .expect(200)
+            .then((response) => {
+                expect(airports.length).toEqual(originalAirportLength-1);
+                done();
+            });
+    });
+    test("PUT /airport should return a specific airport", (done) => {
+        const airport = airports[Math.floor(Math.random()*airports.length)];
+        const newAirport = {
+            "icao": "GR0D",
+            "iata": "",
+            "name": "Random Airport",
+            "city": "Multiverse City",
+            "state": "London",
+            "country": "UK",
+            "elevation": 450,
+            "lat": 59.94919968,
+            "lon": -151.695999146,
+            "tz": "America/Anchorage"
+        };
+        const index = airports.indexOf(airport)
+
+        request(app)
+            .put("/airports/"+ airport.icao)
+            .send(newAirport2)
+            .then((response) => {
+                expect(200)
+                console.log("New Airport",newAirport)
+                expect(airports[index]).toEqual(newAirport);
+                done();
+            });
+    });
+    
 });
