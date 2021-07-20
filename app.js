@@ -16,6 +16,20 @@ app.post("/airports", (req, res) => {
     res.sendStatus(201);
 });
 
+// /Get Paginated Airports
+app.get("/airports?page=2&pageSize=25", (req,res) => {
+    console.log(req.params.pageSize)
+    console.log(req.params.pageNumber)
+    if(!req.params.pageSize){
+        req.params.pageSize = 25
+    }
+    
+    // airports.forEach( (airport,index) => {
+
+    // })
+    // res.json(airports)
+})
+
 // /Get Airport
 app.get("/airports/:id", (req,res) => {
     const airport = airports.find(airport => airport.icao == req.params.id);

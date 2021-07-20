@@ -51,12 +51,13 @@ describe("airport tests", () => {
     test("DELETE /airport should return a specific airport", (done) => {
         const originalAirportLength = airports.length
         const airport = airports[Math.floor(Math.random()*airports.length)];
+        const index = airports.indexOf(airport)
         request(app)
-        
             .delete("/airports/"+ airport.icao)
             .expect(200)
-            .then((response) => {
+            .then(() => {
                 expect(airports.length).toEqual(originalAirportLength-1);
+                expect(airports.indexOf(airport)).toEqual(-1);
                 done();
             });
     });
@@ -78,8 +79,8 @@ describe("airport tests", () => {
 
         request(app)
             .put("/airports/"+ airport.icao)
-            .send(newAirport2)
-            .then((response) => {
+            .send(newAirport)
+            .then(() => {
                 expect(200)
                 console.log("New Airport",newAirport)
                 expect(airports[index]).toEqual(newAirport);
