@@ -1,0 +1,24 @@
+{
+  "name": "airportapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danncodes/airport-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danncodes/airport-api/issues"
+  },
+  "homepage": "https://github.com/danncodes/airport-api#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jest": "^27.0.6",
+    "supertest": "^6.1.3"
+  }
+}
