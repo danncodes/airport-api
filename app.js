@@ -17,24 +17,31 @@ app.post("/airports", (req, res) => {
 });
 
 // /Get Paginated Airports
-app.get("/airports?page=2&pageSize=25", (req,res) => {
-    console.log(req.params.pageSize)
-    console.log(req.params.pageNumber)
-    if(!req.params.pageSize){
-        req.params.pageSize = 25
-    }
-    
-    // airports.forEach( (airport,index) => {
+// app.get("/airports/:page/:pageSize", (req,res) => {
+//     const page = req.params.page
+//     const pageSize = req.params.pageSize
 
-    // })
-    // res.json(airports)
+//     const array = airports.splice(page*pageSize,pageSize)
+//     console.log("Array Length", array.length)
+//     res.sendStatus(200);
+// })
+
+app.get("/airports/?page=2&pageSize=25", (req,res) => {
+    const page = req.params.page
+    const pageSize = req.params.pageSize
+    console.log("Endpoint Hit")
+    console.log(page,pageSize)
+
+    // const array = airports.splice(page*pageSize,pageSize)
+    // console.log("Array Length", array.length)
+    res.sendStatus(200);
 })
 
 // /Get Airport
-app.get("/airports/:id", (req,res) => {
-    const airport = airports.find(airport => airport.icao == req.params.id);
-    res.json(airport);
-})
+// app.get("/airports/:id", (req,res) => {
+//     const airport = airports.find(airport => airport.icao == req.params.id);
+//     res.json(airport);
+// })
 
 // /Delete Airport
 app.delete("/airports/:id", (req,res) => {
