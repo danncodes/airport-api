@@ -5,10 +5,20 @@ const app = express()
 
 app.use(express.json())
 
-// /Get and Post to All Airports
-app.get("/airports", (req,res) => {
-    res.json(airports)
-})
+app.get("/airports", (req, res) => {
+    let { page = 0, pageSize = 25 } = req.query;
+
+    page = parseInt(page, 10);
+    pageSize = parseInt(pageSize, 10);
+
+    const airportsPage = airports.slice(
+        page * pageSize,
+        page * pageSize + pageSize
+    );
+    // console.log({ page, pageSize });
+    // console.log(airportsPage.length);
+    res.json(airportsPage);
+});
 
 app.post("/airports", (req, res) => {
     airports.push(req.body);
@@ -16,34 +26,13 @@ app.post("/airports", (req, res) => {
     res.sendStatus(201);
 });
 
-// /Get Paginated Airports
-// app.get("/airports/:page/:pageSize", (req,res) => {
-//     const page = req.params.page
-//     const pageSize = req.params.pageSize
 
-//     const array = airports.splice(page*pageSize,pageSize)
-//     console.log("Array Length", array.length)
-//     res.sendStatus(200);
-// })
 
-app.get("/airports/?page=2&pageSize=25", (req,res) => {
-    const page = req.params.page
-    const pageSize = req.params.pageSize
-    console.log("Endpoint Hit")
-    console.log(page,pageSize)
-
-    // const array = airports.splice(page*pageSize,pageSize)
-    // console.log("Array Length", array.length)
-    res.sendStatus(200);
+app.get("/airports/:id", (req,res) => {
+    const airport = airports.find(airport => airport.icao == req.params.id);
+    res.json(airport);
 })
 
-// /Get Airport
-// app.get("/airports/:id", (req,res) => {
-//     const airport = airports.find(airport => airport.icao == req.params.id);
-//     res.json(airport);
-// })
-
-// /Delete Airport
 app.delete("/airports/:id", (req,res) => {
     const airport = airports.find(airport => airport.icao == req.params.id);
     const index = airports.indexOf(airport)
@@ -52,7 +41,6 @@ app.delete("/airports/:id", (req,res) => {
     res.sendStatus(200);
 })
 
-// Put/Replace Airport
 app.put("/airports/:id", (req, res) => {
     let airport = airports.find(airport => airport.icao == req.params.id);
     const index = airports.indexOf(airport)
